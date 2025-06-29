@@ -1,0 +1,40 @@
+{00FFFF}[ Hráèská pravidla ]{FFFFFF}
+1. Je zakázáno používání cheatù a cleo módù zvýhodòujících hru (Handling, Parkour, Gamespeed, atd.)
+2. Je zakázáno používat vulgární výrazy jak v chatu, tak v pøezdívce, názvu gangu èi nemovitosti.
+3. Je zakázáno urážet hráèe / administrátory.
+4. Je zákázáno zneužívat bugu / chyby v scriptu (pøi objevení chyby nahlašte administrátorovi nebo na fórum)
+5. Je zakázáno dìlat reklamu na jiný SA-MP server (IP/Web).
+6. Je zakázáno spamovat v chatu.
+7. Je zakázáno žebrat o body / peníze / admin práva.
+8. Je zakázáno se vydávat za administrátora / vedení portálu.
+9. Je zakázáno zneužívat esc / opustit hru v boji, v sumo zápasech (na eventu se zneužití esc trestá vyhozením z eventu, opuštení hry ne)
+10. Je zakázáno parkovat vozidla z /garaz na cizí pozemky (popøípadnì posuzuje administrátor).
+11. Je zakázáno farmit respect gangu / killy v DM / killy v duelu / výhry v sumu / èas ve høe.
+12. Je zakázáno zneužívat multi úèty na vìtší poèet nemovitostí (pøeposílání výdìlkù na jiný úèet)
+
+{00FFFF}[ Administrátorská pravidla ]{FFFFFF}
+1. Administrátor musí být spravedlivý jedná li se o var / mute / kick / ban.
+2. Administrátor musí odpovídat na dotazy (/dotaz), je-li toho schopen.
+3. Administrátor musí øešit nahlášení (/reports) a udìlat rozsudek, je-li toho schopen.
+4. Administrátor se musí øídit pravidly jak pro hráèe, tak pro administrátora.
+
+{00FFFF}[ Event pravidla ]{FFFFFF}
+1. Hráè musí na eventu "Derby, Special Derby" vrážet do ostatních hráèù (v pøípadì neuposlechnutí má administrátor nárok na vyhození z eventu).
+2. Hráè nesmí na eventech "Western, DM, TDM, GunGame apod." utíkat / bugovat se ven z areálu mapy.
+4. Administrátor se mùže zùèastnit eventu, ovšem nesmí být jakkoliv zvýhodnìn oproti ostatním hráèùm.
+
+{00FFFF}[ Herní úèty ]{FFFFFF}
+1. Sdílení herních úètù je povoleno, ovšem hráè na daném herním úètu ztrácí nárok na øešení ztrát majetku èi úètu. 
+2. Prodej èi darování herních úètù je povoleno, ovšem hráè na daném herním úètu ztrácí nárok na øešení ztrát majetku èi úètu.
+3. Neoprávnìné vniknutí na cizí úèet je pøísnì zakázané.
+
+{00FFFF}[ Obchodování ] {FFFFFF}
+1. Pro obchodování s body používejte výhradnì /drazba, jinak se vystavujete riziku krádeže. 
+
+{FF0000}Administrátor nebude øešit nevrácení bodù v pøípadì, že èástka nebude vyšší než 10000 a nejsou k ní doloženy dostateèné screeny z chatu.
+Doporuèujeme si všechny platby / darování bodù zaznamenat pomocí screenshotu klávesou F12.
+Pro dotaz použijte /dotaz a pro nahlášení hráèe /report, online administrátor ihned uvidí co potøebujete nebo koho jste nahlásili)
+
+Neznalost pravidel se neomlouvá, pravidla se mohou bìhem èasu zmìnit! 
+Tresty udìluje Administrátor tak jak uzná za vhodné. Pokud nìco v pravidlech není, 
+neznamená to, že je to povoleno. 
