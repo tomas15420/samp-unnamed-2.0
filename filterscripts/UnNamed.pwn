@@ -930,7 +930,7 @@ new bool: GiftMode;
 
 #define host	"localhost"
 #define user	"root"
-#define db		"test"
+#define db		"unsamp"
 #define db_pass	""
 
 /*
@@ -8779,7 +8779,7 @@ public OnPlayerDisconnect(playerid,reason)
 			mysql_format(mysql, query, sizeof(query), "INSERT INTO `Achievements` (`Nick`) VALUES ('%e')",Jmeno(playerid));
 			mysql_query(mysql,query,false);
 		}
-	    new Text[800];
+	    new Text[MAX_ACHIEVEMENTS*24];
 		for(new i; i < MAX_ACHIEVEMENTS; i ++)
 		{
 	        format(dfile,sizeof(dfile),USER_FILES,Jmeno(playerid));
