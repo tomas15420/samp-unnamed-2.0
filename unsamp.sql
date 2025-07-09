@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `dgsamp`
+-- Database: `unsamp`
 --
 
 -- --------------------------------------------------------
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `Addons` (
   `SY` float DEFAULT NULL,
   `SZ` float DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=861 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `Bans` (
   `Start` int(11) DEFAULT NULL,
   `End` int(11) DEFAULT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=66 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `Chat_buffer` (
   `SHOWED` int(1) NOT NULL DEFAULT '0',
   `TYPE` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1954 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `Codes` (
   `CODE_PICKER` varchar(30) DEFAULT NULL,
   `CODE_TIME_PICK` int(10) DEFAULT NULL,
   PRIMARY KEY (`CODE_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=378 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `DGS_Records` (
   UNIQUE KEY `DGS_REC_ID` (`DGS_REC_ID`),
   KEY `DGS_REC_ID_2` (`DGS_REC_ID`),
   KEY `DGS_REC_ID_3` (`DGS_REC_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=373 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `Dotazy` (
   `Readed` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=6792 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `EliteProps` (
   `Level` int(2) NOT NULL DEFAULT '1',
   `Earnings` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `GameAchievs` (
   `AchievID` int(11) NOT NULL,
   `Date` varchar(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=19725 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -255,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `GangZones` (
   `ZoneID` int(11) NOT NULL,
   `GangID` int(11) NOT NULL DEFAULT '-1',
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=285 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -270,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `GarageVehicles` (
   `Kategorie` int(11) NOT NULL,
   `Elite` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=117 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -280,10 +280,10 @@ CREATE TABLE IF NOT EXISTS `GarageVehicles` (
 
 CREATE TABLE IF NOT EXISTS `Gifts` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Nick` varchar(24) CHARACTER SET latin1 NOT NULL,
+  `Nick` varchar(24) NOT NULL,
   `gift_id` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -304,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `Houses` (
   `NeedHours` int(11) NOT NULL DEFAULT '10',
   `OwnerActivity` int(11) DEFAULT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1208 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -337,7 +337,7 @@ CREATE TABLE IF NOT EXISTS `Inzeraty` (
   `ENDS` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -355,7 +355,7 @@ CREATE TABLE IF NOT EXISTS `LoginLog` (
   `AFK` int(11) DEFAULT NULL,
   `Events` int(11) DEFAULT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=711721 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -374,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `Maps` (
   `Y` float NOT NULL,
   `Z` float NOT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=129 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -394,7 +394,7 @@ CREATE TABLE IF NOT EXISTS `MapsObjects` (
   `rZ` float NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=7689 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -413,7 +413,7 @@ CREATE TABLE IF NOT EXISTS `Music` (
   `MUSIC_LENGHT` int(11) NOT NULL,
   `MUSIC_PINNED` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`MUSIC_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=151 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -427,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `News` (
   `TEXT` text NOT NULL,
   `BUILD` float NOT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 --
 -- Dumping data for table `News`
@@ -476,7 +476,7 @@ CREATE TABLE IF NOT EXISTS `Notifications` (
   `Readed` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=16381 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -517,7 +517,7 @@ CREATE TABLE IF NOT EXISTS `Packages` (
   `Z` float NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=165 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -531,7 +531,7 @@ CREATE TABLE IF NOT EXISTS `PlayerPackages` (
   `PackageID` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=646 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -547,7 +547,7 @@ CREATE TABLE IF NOT EXISTS `PMLog` (
   `PM_TEXT` varchar(144) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1250522 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -566,7 +566,7 @@ CREATE TABLE IF NOT EXISTS `Positions` (
   `INTERIOR` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=39 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -585,7 +585,7 @@ CREATE TABLE IF NOT EXISTS `Prestupky` (
   `Time` int(11) NOT NULL,
   `EndTime` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=18755 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -621,7 +621,7 @@ CREATE TABLE IF NOT EXISTS `Reports` (
   `Solved` varchar(24) NOT NULL DEFAULT '-',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=2598 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -634,7 +634,7 @@ CREATE TABLE IF NOT EXISTS `ServerLog` (
   `Time` int(11) DEFAULT NULL,
   `Text` text,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=23988540 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -650,7 +650,7 @@ CREATE TABLE IF NOT EXISTS `ServerVehicles` (
   `Z` float NOT NULL,
   `A` float NOT NULL,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=641 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 --
 -- Dumping data for table `ServerVehicles`
@@ -1256,7 +1256,7 @@ CREATE TABLE IF NOT EXISTS `Skins` (
   `Nick` varchar(24) NOT NULL,
   `SkinID` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=94 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1277,7 +1277,7 @@ CREATE TABLE IF NOT EXISTS `Soutez` (
   `ChoicePrice` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1293,7 +1293,7 @@ CREATE TABLE IF NOT EXISTS `SoutezOdpovedi` (
   `Cas` int(10) NOT NULL,
   `Win` int(1) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=896 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1309,7 +1309,7 @@ CREATE TABLE IF NOT EXISTS `SpecialProperties` (
   `Stock` int(11) DEFAULT 0,
   `Earning` int(11) DEFAULT 0,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=239 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1324,7 +1324,7 @@ CREATE TABLE IF NOT EXISTS `Stunts` (
   `StuntCompleted` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=43850 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1337,7 +1337,7 @@ CREATE TABLE IF NOT EXISTS `Tombola` (
   `Nick` varchar(24) NOT NULL,
   `Price` float NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1352,7 +1352,7 @@ CREATE TABLE IF NOT EXISTS `TombolaWins` (
   `Los` int(11) NOT NULL,
   `Time` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=654 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1370,7 +1370,7 @@ CREATE TABLE IF NOT EXISTS `TrestneBody` (
   `tb_z` int(11) NOT NULL COMMENT 'Záloha trestných bodů pro jejich případné obnovení.',
   `showed` int(1) DEFAULT 0,
   PRIMARY KEY (`trest_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=5793 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1386,7 +1386,7 @@ CREATE TABLE IF NOT EXISTS `UserControl` (
   `Date` int(10) NOT NULL,
   `Status` int(1) NOT NULL COMMENT '0 = ok | 1 = info | 2 = warning | 3 = critical',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1435,7 +1435,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `Legend` int(11) DEFAULT NULL,
   `Dovolena` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=24468 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1448,7 +1448,7 @@ CREATE TABLE IF NOT EXISTS `UserTituls` (
   `Nick` varchar(24) NOT NULL,
   `Titul` varchar(30) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=384 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1475,7 +1475,7 @@ CREATE TABLE IF NOT EXISTS `Vybava` (
   `slot11` int(2) DEFAULT NULL,
   `slot12` int(2) DEFAULT NULL,
   PRIMARY KEY (`vybava_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=9401 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 -- --------------------------------------------------------
 
@@ -1492,7 +1492,7 @@ CREATE TABLE IF NOT EXISTS `Vyhry` (
   `Odmena` text NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=16072 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

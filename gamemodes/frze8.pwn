@@ -1810,9 +1810,7 @@ public OnGameModeInit()
 	else
 	{
 		printf("[ "GM_NAME" ] MySQL (%s) [ OK ]",DOF2_GetString(CONFIG,"DB_NAME"));
-		mysql_tquery(mysql,"SET character_set_client=cp1250");
-		mysql_tquery(mysql,"SET character_set_connection=cp1250");
-		mysql_tquery(mysql,"SET character_set_results=cp1250");
+		mysql_set_charset("cp1250",mysql);
 	}
 
 	CreateSpecialProperties();

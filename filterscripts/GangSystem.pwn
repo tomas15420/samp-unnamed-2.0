@@ -463,9 +463,7 @@ public OnFilterScriptInit()
 	else
 	{
 		printf("Pøipojeno k databázi: %s",DOF2_GetString(UNCONFIG,"DB_NAME"));
-		mysql_tquery(mysql,"SET character_set_client=cp1250");
-		mysql_tquery(mysql,"SET character_set_connection=cp1250");
-		mysql_tquery(mysql,"SET character_set_results=cp1250");
+		mysql_set_charset("cp1250",mysql);
 	}
 
 
