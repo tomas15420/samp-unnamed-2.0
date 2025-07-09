@@ -65,10 +65,10 @@
 
 #define SCMTOAA(%1) format(str,sizeof(str),"%s %s",%1,params); SCMTOA(playerid,str);
 #define USER_FILES "UnNamed/%s.save"
-#define IsNoAdmin(%1) if(Admin[playerid] <= 2) return SM(%1,"Nem  dostate n  Admin Pr va");
-#define IsNoEventer(%1) if(Admin[playerid] == 0) return SM(%1,"Nem  dostate n  Admin Pr va");
-#define IsNoModerator(%1) if(Admin[playerid] <= 1) return SM(%1,"Nem  dostate n  Admin Pr va");
-#define IsNoVIP(%1) if(vip[%1] == 0) return SM(%1,"Nevlastn  Premium   et "g"/premium");
+#define IsNoAdmin(%1) if(Admin[playerid] <= 2) return SM(%1,"Nemáte dostateèná Admin Práva");
+#define IsNoEventer(%1) if(Admin[playerid] == 0) return SM(%1,"Nemáte dostateèná Admin Práva");
+#define IsNoModerator(%1) if(Admin[playerid] <= 1) return SM(%1,"Nemáte dostateèná Admin Práva");
+#define IsNoVIP(%1) if(vip[%1] == 0) return SM(%1,"Nevlastníte Premium úèet "g"/premium");
 
 #define RCMD_PREFIX "/"
 #define rcmd(%1,%2,%3) if((strcmp((%3), RCMD_PREFIX #%1, true, (%2)) == 0) && ((((%3)[(%2) + 1] == 0) && (rcmd_%1(""))) || (((%3)[(%2) + 1] == 32) && (rcmd_%1((%3)[(%2) + 2]))))) return 1
@@ -195,7 +195,7 @@ stock CreateNeon(playerid,neonid)
 	Neon2[vehicleid] = CreateObject(neonid,0,0,0,0,0,0,100);
 	AttachObjectToVehicle(Neon1[vehicleid], vehicleid, -0.8,0.0,-0.70,0.0,0.0,0.0);
 	AttachObjectToVehicle(Neon2[vehicleid], vehicleid, 0.8,0.0,-0.70,0.0,0.0,0.0);
-	SM(playerid,"Neony  sp n  namontov ny");
+	SM(playerid,"Neony úspìšnì namontovány");
 	Neony[vehicleid] = 1;
 	return 1;
 }
@@ -1026,14 +1026,14 @@ stock Menu(playerid)
 	strcat(DIALOG_CARMENU,""y"M"w"otorky\n");
 	strcat(DIALOG_CARMENU,""y"K"w"ola\n");
 	strcat(DIALOG_CARMENU,""y"L"w"etadla\n");
-	strcat(DIALOG_CARMENU,""y"H"w"elikopt ry\n");
-	strcat(DIALOG_CARMENU,""y"L"w"od \n");
-	strcat(DIALOG_CARMENU,""y"S"w"portovn \n");
-	strcat(DIALOG_CARMENU,""y"S"w"alonov \n");
+	strcat(DIALOG_CARMENU,""y"H"w"elikoptéry\n");
+	strcat(DIALOG_CARMENU,""y"L"w"odì\n");
+	strcat(DIALOG_CARMENU,""y"S"w"portovní\n");
+	strcat(DIALOG_CARMENU,""y"S"w"alonová\n");
 	strcat(DIALOG_CARMENU,""y"L"w"owridery\n");
 	strcat(DIALOG_CARMENU,""y"O"w"ff-Road\n");
-	strcat(DIALOG_CARMENU,""y"P"w"r myslov \n");
- 	strcat(DIALOG_CARMENU,""y"S"w"lu ebn ");
+	strcat(DIALOG_CARMENU,""y"P"w"rùmyslová\n");
+ 	strcat(DIALOG_CARMENU,""y"S"w"lužební");
 	SPD(playerid,CARMENU,DIALOG_STYLE_LIST,"CarMenu",DIALOG_CARMENU,"Vybrat","Zav  t");
 	return 0;
 }

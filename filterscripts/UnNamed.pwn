@@ -22,6 +22,11 @@ native gpci (playerid, serial [], len);
 
 #define BYTES_PER_CELL 4
 
+#define host	"localhost"
+#define user	"root"
+#define db		"unsamp"
+#define db_pass	""
+
 #define SRV_WEB "Example.com"
 #define SRV_MAIL "example@example.com"
 #define SRV_INSTA "instagram.com/server_ig"
@@ -928,17 +933,6 @@ new bool: GiftMode;
 #file "UnNamed_v2.0"
 #define JailCmdBlock(%1); if(IsPlayerInRangeOfPoint(playerid,7.0,198.3082,161.9286,1003.0300)) return SM(playerid,"Ve vìzení nemùžete použít tento pøíkaz"); if(GetPlayerWantedLevel(playerid) == 0) { if(IsPlayerInRangeOfPoint(playerid,20.0,248.7287,1800.2538,7.4141)) return SM(playerid,"Ve vìzení nemùžete použít tento pøíkaz"); if(PrisonTime[playerid] > 0) return SM(playerid,"Ve vìzení nemùžete použít tento pøíkaz"); }
 
-#define host	"localhost"
-#define user	"root"
-#define db		"unsamp"
-#define db_pass	""
-
-/*
-#define host	"casa4.fakaheda.eu"
-#define user	"217521_mysql_db"
-#define db		"217521_mysql_db"
-#define db_pass	"testserver"
-*/
 new bool:blockplayerpos;
 new serverweather = 1;
 new objectlist = mS_INVALID_LISTID;
