@@ -449,7 +449,23 @@ public SaveData()
 
 public OnFilterScriptInit()
 {
-
+	if(!fexist("GangSystem"))
+	{
+	    print("Chybí složka GangSystem prosím vytvoøte ji do složky scriptfiles");
+		SendRconCommand("exit");
+		return 1;
+	}
+	if(!fexist("GangSystem/Vehicles"))
+	{
+	    print("Chybí složka GangSystem/Vehicles prosím vytvoøte ji do složky scriptfiles");
+		SendRconCommand("exit");
+		return 1;
+	}
+	if(!fexist(UNCONFIG))
+	{
+	    print("Chybí "UNCONFIG" file");
+		SendRconCommand("exit");
+	}
 
 	SetTimer("SaveData",1000*60*60,true);
 	mysql_log(LOG_ERROR | LOG_WARNING);
