@@ -2194,14 +2194,14 @@ public RealTime()
 				if(RunEvent == 11)
 				{
 			        new DIALOG[30*35],players[MAX_PLAYERS],kills[MAX_PLAYERS];
-			        for(new i; i <= GetPlayerPoolSize(); i ++)
+			        for(new i; i < MAX_PLAYERS; i ++)
 			        {
 			            kills[i] = Player[i][pEventKills];
 						players[i] = i;
 			        }
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    for(new j=i;j <= GetPlayerPoolSize(); j ++)
+					    for(new j=i;j < MAX_PLAYERS; j ++)
 					    {
 					        if(kills[j] > kills[i])
 							{
@@ -2227,7 +2227,7 @@ public RealTime()
 				        CallLocalFunction("cmd_dann","is",botid," ");
 					}
 					new places;
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
 				    	if(IPC(players[i]) && !IsPlayerNPC(players[i]) && OnEvent[players[i]] == true && kills[i] > 0)
 						{
@@ -2241,7 +2241,7 @@ public RealTime()
 					new id = GetPlayerIdFromName(EventAdmin);
 					if(IPC(id) && OnEvent[id] == false)
 						SPD(id,0,DIALOG_STYLE_TABLIST,"Výsledky eventu",DIALOG,"Zavøít","");
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					    if(IPC(i) && !IsPlayerNPC(i) && OnEvent[i] == true)
 							SPD(i,0,DIALOG_STYLE_TABLIST,"Výsledky eventu",DIALOG,"Zavøít","");
 					if(IsBotConnected())
@@ -2285,7 +2285,7 @@ public GameTime()
 		    hodiny = 0;
 		}
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i))
 	    {
@@ -2401,7 +2401,7 @@ public PropertyPayOff()
 					GivePlayerMoneyToTrezor(Property[i][PropertyOwner],Property[i][PropertyEarning]);
 					format(str,sizeof(str),"Nemovitost "g"%s "dc"vypršel pronájem, byla odprodána mìstu. Všechny peníze ("g"%s$"dc") byly pøevedeny\ndo záložního trezoru "g"/trezor",Property[i][PropertyName],Split(Property[i][PropertyEarning]));
 					SendPlayerNotification(Property[i][PropertyOwner],"Nemovitost odprodána",str);
-				    for(new x; x <= GetPlayerPoolSize(); x ++)
+				    for(new x; x < MAX_PLAYERS; x ++)
 				    {
 				        if(IPC(x))
 				        {
@@ -2427,7 +2427,7 @@ public PropertyPayOff()
 			    DOF2_SetInt(fajl,"Hours",Property[i][PropertyTime]);
 				DOF2_SaveFile();
 				UpdatePropertyText(i);
-				for(new x; x <= GetPlayerPoolSize(); x ++)
+				for(new x; x < MAX_PLAYERS; x ++)
 			    {
 			        if(IPC(x))
 			        {
@@ -2528,7 +2528,7 @@ function OnPlayerLogged(playerid)
 function Inzeraty()
 {
 	new inzerats,Inzerat[MAX_PLAYERS][129],InzeratID[MAX_PLAYERS];
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i))
 	    {
@@ -3515,7 +3515,7 @@ public OnFilterScriptInit()
 	}
 
 	ConnectNPC(BOT_NAME,"unbot");
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IsPlayerConnected(i) && IsPlayerNPC(i))
 	    {
@@ -4008,7 +4008,7 @@ public OnDynamicObjectMoved(objectid)
 	if(RunEvent == 8 && objectid == eObjects[1])
 	{
 	    EventState = 1;
-	    for(new i; i <= GetPlayerPoolSize(); i ++)
+	    for(new i; i < MAX_PLAYERS; i ++)
 	    {
 	        if(IPC(i) && OnEvent[i] == true)
 			{
@@ -4086,48 +4086,51 @@ public OnPlayerEnterVehicle(playerid,vehicleid,ispassenger)
 				CreateInfoBox(playerid,str,5);
 		    }
 		}
- 		for(new i; i <= GetPlayerPoolSize(); i ++)
+ 		for(new i; i < MAX_PLAYERS; i ++)
 		{
-		    for(new x; x < MAX_SLOTS; x++)
+		    if(IPC(i))
 		    {
-			    if(i != playerid)
+			    for(new x; x < MAX_SLOTS; x++)
 			    {
-			    	if(vehicleid == SavedCar[i][x])
-		    		{
-			    	    if(strcmp(ParkInfo[i][x][Password],"Unlocked",false) != 0)
-			    	    {
-							new Float:X,Float:Y,Float:Z;
-							GetPlayerPos(playerid,X,Y,Z);
-							SetPlayerPos(playerid,X,Y,Z);
-				    	    if(strcmp(ParkInfo[i][x][Password],"Locked",false) == 0)
-				    	    {
-								format(str,sizeof(str),"Toto vozidlo ("g"%s"w") vlastní hráè "g"%s",GetVehicleNameByCarID(ParkInfo[i][x][Model]),Jmeno(i));
-								SM(playerid,str);
-							}
-							else
-							{
-								format(str,sizeof(str),"Toto vozidlo ("g"%s"w") patøí hráèi: "g"%s\n"w"Pro odemknutí vozidla zadejte heslo",GetVehicleNameByCarID(ParkInfo[i][x][Model]),Jmeno(i));
-							    SPD(playerid,UNNAMED+125,DIALOG_STYLE_INPUT,"Heslo",str,"Zadat","Zavøít");
-							    SetPVarInt(playerid,"PlayerVehicle",i);
-							    SetPVarInt(playerid,"GarageSlotID",x);
-							}
-						}
-			    	}
-				}
-				else
-				{
-				    if(x < MAX_SLOTS-MAX_SPECIAL_SLOTS)
+				    if(i != playerid)
 				    {
-					    if(vehicleid == SavedCar[i][x])
+				    	if(vehicleid == SavedCar[i][x])
+			    		{
+				    	    if(strcmp(ParkInfo[i][x][Password],"Unlocked",false) != 0)
+				    	    {
+								new Float:X,Float:Y,Float:Z;
+								GetPlayerPos(playerid,X,Y,Z);
+								SetPlayerPos(playerid,X,Y,Z);
+					    	    if(strcmp(ParkInfo[i][x][Password],"Locked",false) == 0)
+					    	    {
+									format(str,sizeof(str),"Toto vozidlo ("g"%s"w") vlastní hráè "g"%s",GetVehicleNameByCarID(ParkInfo[i][x][Model]),Jmeno(i));
+									SM(playerid,str);
+								}
+								else
+								{
+									format(str,sizeof(str),"Toto vozidlo ("g"%s"w") patøí hráèi: "g"%s\n"w"Pro odemknutí vozidla zadejte heslo",GetVehicleNameByCarID(ParkInfo[i][x][Model]),Jmeno(i));
+								    SPD(playerid,UNNAMED+125,DIALOG_STYLE_INPUT,"Heslo",str,"Zadat","Zavøít");
+								    SetPVarInt(playerid,"PlayerVehicle",i);
+								    SetPVarInt(playerid,"GarageSlotID",x);
+								}
+							}
+				    	}
+					}
+					else
+					{
+					    if(x < MAX_SLOTS-MAX_SPECIAL_SLOTS)
 					    {
-					        if(Slots[playerid][x] == 0)
-					        {
-								TogglePlayerControllable(playerid,false);
-								TogglePlayerControllable(playerid,true);
-								format(str,sizeof(str),"Toto vozidlo "r"%s "w"je v zamknutém slotu [ %d ] --> "g"/garaz",GetVehicleName(vehicleid),x+1);
-								SM(playerid,str);
-					        }
-					    }
+						    if(vehicleid == SavedCar[i][x])
+						    {
+						        if(Slots[playerid][x] == 0)
+						        {
+									TogglePlayerControllable(playerid,false);
+									TogglePlayerControllable(playerid,true);
+									format(str,sizeof(str),"Toto vozidlo "r"%s "w"je v zamknutém slotu [ %d ] --> "g"/garaz",GetVehicleName(vehicleid),x+1);
+									SM(playerid,str);
+						        }
+						    }
+						}
 					}
 				}
 			}
@@ -5225,7 +5228,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	        {
 	            if(GetPlayerWeapon(playerid) != 0)
 	            {
-	                for(new i; i <= GetPlayerPoolSize(); i ++)
+	                for(new i; i < MAX_PLAYERS; i ++)
 	                {
 	                    if(IPC(i) && !IsPlayerNPC(i))
 	                    {
@@ -5276,7 +5279,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	        }
 	        if(WorkMission[playerid] == 8)
 	        {
-                for(new i; i <= GetPlayerPoolSize(); i ++)
+                for(new i; i < MAX_PLAYERS; i ++)
                 {
                     if(IPC(i) && !IsPlayerNPC(i))
                     {
@@ -5417,9 +5420,9 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 				new car = GetPlayerVehicleID(playerid), model = GetVehicleModel(car);
 				format(str,sizeof(str),"Wang Cars nyni vykupuje vozidlo ~r~%s",GetVehicleNameByCarID(CarSellID));
 				if(model != CarSellID) return CreateCompleteMessage(playerid,"Wang Cars",str,5);
-				for(new i; i <= GetPlayerPoolSize(); i ++)
+				for(new i; i < MAX_PLAYERS; i ++)
 				{
-					if(IsPlayerInVehicle(playerid,CCAR[i])) return CreateInfoBox(playerid,"Nemuzete prodat ~r~vozidlo z carmenu",5);
+					if(IPC(i) && IsPlayerInVehicle(playerid,CCAR[i])) return CreateInfoBox(playerid,"Nemuzete prodat ~r~vozidlo z carmenu",5);
 				}
 				new rand = random(sizeof(CarSellIDS)),castka = 30000+random(20000),points = 1 + random(1);
 				CarSellID = CarSellIDS[rand];
@@ -5579,7 +5582,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 					    if(WorkMission[playerid] > 0) return SM(playerid,"Už si v misi, použij "r"/zrusmisi");
 						CheckZrusMisi(playerid);
 					    new Float:X,Float:Y,Float:Z,Float:A,used,rand = random(sizeof(MechanicMission));
-						for(new i; i <= GetPlayerPoolSize(); i ++)
+						for(new i; i < MAX_PLAYERS; i ++)
 						{
 							if(IPC(i) && !IsPlayerNPC(i))
 							{
@@ -5855,7 +5858,7 @@ public OnPlayerSecondUpdate(playerid)
 			    format(text,sizeof(text),"Nepøíjmul si výzvu od hráèe "w"%s {B2FF00}na hod kostkou, hra se neuskuteèní",Jmeno(id));
 			    SCM(playerid,0xB2FF00FF,text);
 			    format(text,sizeof(text),"%s "w"%s {B2FF00}nepøíjmul výzvu na hod kostkou, hra se neuskuteèní",Players(playerid),Jmeno(playerid));
-			    if(id != -1 && id < MAX_PLAYERS)
+			    if(id != -1 && id < MAX_PLAYERS && IPC(id))
 			    {
 			        SCM(id,0xB2FF00FF,text);
 			        SetPVarInt(id,"KostkaID",-1);
@@ -6354,7 +6357,7 @@ public OnPlayerSecondUpdate(playerid)
 		            }
 		        }
 		    }
-		    for(new x; x <= GetPlayerPoolSize(); x ++)
+		    for(new x; x < MAX_PLAYERS; x ++)
 		    {
 		        if(IPC(x))
 		        {
@@ -6588,7 +6591,7 @@ public OnPlayerSecondUpdate(playerid)
 						}
 					}
 				}
-				for(new i; i <= GetPlayerPoolSize(); i ++)
+				for(new i; i < MAX_PLAYERS; i ++)
 				{
 				    if(IPC(i) && !IsPlayerNPC(i))
 				    {
@@ -6672,7 +6675,7 @@ public OnVehicleDeath(vehicleid,killerid)
 	{
 	    Locked[vehicleid] = -1;
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -6710,7 +6713,7 @@ public OnVehicleSpawn(vehicleid)
 	{
 	    Locked[vehicleid] = -1;
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(IPC(i))
 		{
@@ -7405,7 +7408,7 @@ public OnPlayerDeath(playerid,killerid,reason)
 			Duel[room][DuelTimer]= 0;
 			Duel[room][DuelKills][dPlayer[killerid][pDuelStatus]]++;
 			Duel[room][DuelRound] ++;
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
 			    if(IPC(i) && dPlayer[i][pDuelSpec] != -1 && GetPlayerState(Duel[dPlayer[i][pDuelRoom]][DuelPlayer][(dPlayer[i][pDuelSpec]+1)%2]) != PLAYER_STATE_WASTED)
 			    {
@@ -7675,7 +7678,7 @@ public OnPlayerDeath(playerid,killerid,reason)
 				{
 			        Player[killerid][pEventKills] ++;
 					new id = -1;
-			        for(new i; i <= GetPlayerPoolSize(); i ++)
+			        for(new i; i < MAX_PLAYERS; i ++)
 			            if(IPC(i) && !IsPlayerNPC(i) && OnEvent[i] == true)
 			            {
 			                if(id == -1)
@@ -7703,7 +7706,7 @@ public UnloadFakeKill(playerid) return AntiFakeKill[playerid] = 0;
 	if(success)
 	{
 		new allowedip[][] = {"127.0.0.1","77.78.89.162","90.178.233.101","95.103.130.1","89.177.38.67"};
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(strcmp(GetIP(i),ip,false) == 0)
 		    {
@@ -7817,7 +7820,7 @@ rcmd_stream(params[])
     if(sscanf(params,"z",url)) return 0;
 	KillTimer(TimerStream);
 	TimerStream = 0;
-    for(new i; i <= GetPlayerPoolSize(); i ++)
+    for(new i; i < MAX_PLAYERS; i ++)
     {
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -7885,9 +7888,9 @@ function HTTP_CountryName(playerid,response_code,data[])
 		TotalAccounts[playerid] = cache_get_row_count(mysql);
 		cache_delete(cache,mysql);
 		format(str,sizeof(str),"%s "w": "g"%s "w": "g"%s "w": "g"%d úètù",Jmeno(playerid),GetIP(playerid),country,TotalAccounts[playerid]);
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
-		    if(Admin[i] > 0)
+		    if(IPC(i) && Admin[i] > 0)
 		    {
 				SCM(i,green,str);
 			}
@@ -8547,7 +8550,7 @@ public OnPlayerDisconnect(playerid,reason)
 			ResetDuel(room,str);
 		}
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i))
 	        MutePlayers[i][playerid] = false;
@@ -8632,7 +8635,7 @@ public OnPlayerDisconnect(playerid,reason)
 	EventColor[playerid] = 0;
     new id = GetPVarInt(playerid,"KostkaID");
     format(str,sizeof(str),"%s "w"%s {B2FF00}se odpojil ze serveru, hra se neuskuteèní",Players(playerid),Jmeno(playerid));
-    if(id != -1 && id < MAX_PLAYERS)
+    if(IPC(id) && id != -1 && id < MAX_PLAYERS)
     {
         SCM(id,0xB2FF00FF,str);
         SetPVarInt(id,"KostkaID",-1);
@@ -8642,7 +8645,7 @@ public OnPlayerDisconnect(playerid,reason)
         SCM(id-MAX_PLAYERS,0xB2FF00FF,str);
         SetPVarInt(id-MAX_PLAYERS,"KostkaID",-1);
     }
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i))
 	    {
@@ -8909,7 +8912,7 @@ public OnPlayerDisconnect(playerid,reason)
 	    SumoTime = 0;
 		format(str,sizeof(str),"%s "w"%s {5700E5}%s "w"/sumo "g"[ Opustil Server ]",Players(playerid),Jmeno(playerid),SexWord(playerid,"opustil","opustila"));
 		SCMTA(0x5700E5FF,str);
-	    for(new i; i <= GetPlayerPoolSize(); i ++)
+	    for(new i; i < MAX_PLAYERS; i ++)
 	    {
 	        if(IPC(i) && !IsPlayerNPC(i))
 	        {
@@ -9295,7 +9298,7 @@ public OnPlayerText(playerid,text[])
 		{
 			format(str,sizeof(str),"{%06x}%s "w"(%d): "w"%s",GetPlayerColor(playerid) >>> 8,Jmeno(playerid),playerid,string);
 		}
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 			if(IPC(i))
 			    if(MutePlayers[i][playerid] == false)
 	    			SendTwoLinesMessage(i,color,str);
@@ -10459,7 +10462,7 @@ CMD:mince(playerid,params[])
 CMD:muteplayers(playerid,params[])
 {
 	new DIALOG[800],mplayers,players;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i))
 	    {
@@ -10681,7 +10684,7 @@ CMD:deletehouse(playerid,params[])
 		DestroyDynamicPickup(House[id][hPickup]);
 		DestroyDynamicMapIcon(House[id][hMapIcon]);
 		DestroyDynamic3DTextLabel(House[id][hText]);
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		    if(IPC(i))
 		        if(IsPlayerHouseOwner(i,id))
 		            PlayerHouse[i] = -1;
@@ -10914,7 +10917,7 @@ CMD:packagemode(playerid,params[])
 			        Package[i][Label] = CreateDynamic3DTextLabel(str,0x0077FFFF,Package[i][pX],Package[i][pY],Package[i][pZ],15,.worldid = vwid);
 				}
 		    }
-		    for(new i; i <= GetPlayerPoolSize(); i ++)
+		    for(new i; i < MAX_PLAYERS; i ++)
 		    {
 		        if(IPC(i) && !IsPlayerNPC(i) && GetPlayerVirtualWorld(i) == vwid)
 		        {
@@ -10935,7 +10938,7 @@ CMD:packagemode(playerid,params[])
 				DestroyDynamic3DTextLabel(Package[i][Label]);
 				DestroyDynamicPickup(Package[i][Pickup]);
 			}
-		    for(new i; i <= GetPlayerPoolSize(); i ++)
+		    for(new i; i < MAX_PLAYERS; i ++)
 		    {
 		        if(IPC(i) && !IsPlayerNPC(i))
 		        {
@@ -10959,7 +10962,7 @@ CMD:giftmode(playerid,params[])
 	if(GiftMode == true)
 	{
 	    SM(playerid,"GiftMode Aktivován");
-	    for(new i; i <= GetPlayerPoolSize(); i ++)
+	    for(new i; i < MAX_PLAYERS; i ++)
 	    {
 	        if(IPC(i) && !IsPlayerNPC(i))
 	        {
@@ -10970,7 +10973,7 @@ CMD:giftmode(playerid,params[])
 	else
 	{
 	    SM(playerid,"GiftMode Deaktivován");
-	    for(new i; i <= GetPlayerPoolSize(); i ++)
+	    for(new i; i < MAX_PLAYERS; i ++)
 	    {
 	        if(IPC(i) && !IsPlayerNPC(i))
 	        {
@@ -11103,7 +11106,7 @@ CMD:gmx(playerid,params[])
 	{
 		if(!IPA(playerid)) return SM(playerid,"Nejsi pøihlášený pøes "r"RCON");
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(AFK[i] == true)
 		{
@@ -11924,7 +11927,7 @@ CMD:getid(playerid,params[])
 	new nick[144],finded = 0,DIALOG[2500];
 	if(sscanf(params,"z",nick)) return SM(playerid,"Použití: "r"/getid [ Nick / Èást nicku ]");
 	if(strlen(nick) < 1 || strlen(nick) > MAX_PLAYER_NAME) return SM(playerid,"Minimálnì lze použít 1 znak a maximálnì 24 znakù");
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -11972,7 +11975,7 @@ CMD:allunlock(playerid,params[])
 {
 	SCMTOAA("allunlock")
 	IsNoModerator(playerid)
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(PLocked[i] > -1)
 		{
@@ -12262,7 +12265,7 @@ CMD:addservervehicle(playerid,params[])
 		SCMTA(red,str);
 	}
 	new players;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(Listening[i] == -1 && BlockedStream[i] == 0 && MusicLenght[i] < 1)
 		{
@@ -12353,7 +12356,7 @@ CMD:rename(playerid,params[])
 	}
 	format(dfile,sizeof(dfile),USER_FILES,name);
 	if(fexist(dfile)) return SM(playerid,"Tento nick už nìkdo používá");
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i))
 	    {
@@ -12520,9 +12523,9 @@ CMD:startrace(playerid,params[])
     SCMTA(0x0055FFFF,str);
     RaceStart[raceid] = true;
 	TimeToStartSeconds[raceid] = 0;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-		if(RacePlayer[i] == raceid)
+		if(IPC(i) && RacePlayer[i] == raceid)
 		{
 			DisablePlayerRaceCheckpoint(i);
 			TogglePlayerControllable(i,false);
@@ -12624,7 +12627,7 @@ CMD:wanted(playerid,params[])
 {
 	SCMTOAA("wanted")
 	new DIALOG_WANTED[1000],bool:wanted;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i))
 	    {
@@ -12746,7 +12749,7 @@ public SumoOdpocet()
 	if(SumoTime > -1)
 	{
 		SetTimer("SumoOdpocet",1000,false);
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(IPC(i) && !IsPlayerNPC(i))
 		    {
@@ -12791,7 +12794,7 @@ public SumoCheck(playerid)
 		DOF2_SetInt(fajl,"SumoLose",SumoLose[playerid]);
         DOF2_SaveFile();
 		SumoStart = false;
-	    for(new i; i <= GetPlayerPoolSize(); i ++)
+	    for(new i; i < MAX_PLAYERS; i ++)
 	    {
 	        if(IPC(i) && !IsPlayerNPC(i))
 	        {
@@ -13034,7 +13037,7 @@ CMD:sevent(playerid,params[])
 	    DestroyDynamicObject(eObjects[2]);
     	MoveDynamicObject(eObjects[0],-2999.369,-1815.771,511.242,35);
 		MoveDynamicObject(eObjects[1],-3001.369,-1815.671,511.492,35);
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(IPC(i) && OnEvent[i] == true){
 		        ResetPlayerWeapons(i);
@@ -13056,7 +13059,7 @@ CMD:sevent(playerid,params[])
 	    SM(playerid,"GunGame Odstartováno");
 
 		TextDrawSetString(Textdraw44,"_");
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(IPC(i) && OnEvent[i] == true){
 				CreateInfoBox(i,"~w~event odstartovan",10);
@@ -13076,7 +13079,7 @@ CMD:sevent(playerid,params[])
 	{
 	    SM(playerid,"DeathMatch Odstartováno");
 		TextDrawSetString(Textdraw44,"_");
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(IPC(i) && OnEvent[i] == true){
 				CreateInfoBox(i,"~w~event odstartovan",10);
@@ -13143,7 +13146,7 @@ public FallDestroy(objectid,objectid2,objects)
 	Fallout[objectid][objectid2][FObject] = 0;
 	Fallout[objectid][objectid2][FDestroyed] = true;
 	new players = 0;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -13167,7 +13170,7 @@ public FallDestroy(objectid,objectid2,objects)
 		new bool:vyhrau;
 		if(players == EventPlayers || EventPlayers == 1)
 		{
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
 			    if(IPC(i) && !IsPlayerNPC(i) && OnEvent[i] == true)
 			    {
@@ -13212,7 +13215,7 @@ CMD:players(playerid,params[])
 	IsNoEventer(playerid)
 	new DIALOG_PLAYERS[10000];
 	strcat(DIALOG_PLAYERS,""dc"Nick\tStatus\tIP\tStát\n");
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i))
 	    {
@@ -13415,7 +13418,7 @@ CMD:danketa(playerid,params[])
 	nevim = 0;
 	hlasovani = false;
 	TextDrawHideForAll(Textdraw28);
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    Hlasoval[i] = false;
 	}
@@ -13972,7 +13975,7 @@ CMD:racestart(playerid,params[])
 			TextDrawHideForAll(event[t]);
 		}
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i))
 	    {
@@ -14144,7 +14147,7 @@ CMD:ann(playerid,params[])
 	if(sscanf(params,"z",text)) return SM(playerid,"Použití: "r"/ann [ Text ]");
 	TextDrawDiakritika(text);
 	format(str,sizeof(str),"~w~%s",text);
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 		if(IPC(i))
 			GameTextForPlayer(i,str,3000,4);
 	return 1;
@@ -14158,14 +14161,14 @@ CMD:dann(playerid,params[])
 	if(sscanf(params,"z",text))
 	{
 		TextDrawSetString(Textdraw5,"_");
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		    if(IPC(i))
 		        TextDrawHideForPlayer(i,Textdraw5);
 	}
 	else
 	{
         if(!SelectPlayer(playerid,text,text)) return 0;
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		    if(IPC(i))
        			TextDrawShowForPlayer(i,Textdraw5);
 		TextDrawDiakritika(text);
@@ -14308,7 +14311,7 @@ CMD:dotaz(playerid,params[])
 		SM(playerid,"Dotaz odeslán, Administrátor Vám v nejbližší možné dobì odpoví");
 		SM(playerid,""r"Zneužívání tohoto pøíkazu se trestá [ ! ]");
 		format(str,sizeof(str),"[ /dotazy ] "y"%s %s(%d) se ptá: "c"%s",Players(playerid),Jmeno(playerid),playerid,dotaz);
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		    if(IPC(i))
 		        if(Admin[i] >= 2)
 		            SendTwoLinesMessage(i,cyan,str,cyan);
@@ -15363,9 +15366,9 @@ CMD:anketa(playerid,params[])
 	}
 	format(Text,sizeof(Text),"~p~] ~r~Anketa ~p~]~n~~y~%s~n~~b~Ano: ~r~0 ~w~/ ~b~Ne: ~r~0 ~w~/ ~b~Nevim: ~r~0",atext);
 	TextDrawSetString(Textdraw28,Text);
-	for(new i; i  <= GetPlayerPoolSize(); i ++)
+	for(new i; i  < MAX_PLAYERS; i ++)
 	{
-		if(TD[i] == false)
+		if(IPC(i) && TD[i] == false)
 		{
 	    	TextDrawShowForPlayer(i,Textdraw28);
 		}
@@ -15383,7 +15386,7 @@ public EndAnketa()
 	SCMTA(bila,str);
 	hlasovani = 0;
 	TextDrawHideForAll(Textdraw28);
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    Hlasoval[i] = false;
 	}
@@ -15825,7 +15828,7 @@ CMD:nastream(playerid,params[])
 		SCMTA(red,str);
 	}
 	new players;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -15914,7 +15917,7 @@ CMD:astream(playerid,params[])
 		SCMTA(red,str);
 	}
 	new players;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -15996,7 +15999,7 @@ CMD:dveh(playerid,params[])
 	format(str,sizeof(str),"Vozidlo ~y~%s~w~ (~r~%d~w~) uspsesne ~g~smazano",GetVehicleName(id),id);
 	CreateInfoBox(playerid,str,5);
 	DestroyVehicle(id);
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i))
 	    {
@@ -16465,9 +16468,9 @@ CMD:ao(playerid,params[])
 	SCMTOAA("ao")
 	IsNoAdmin(playerid)
 	if(AutRepair == 1) return SM(playerid,"Je zaplá automatická oprava vozidel");
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-	    if(IsPlayerInAnyVehicle(i))
+	    if(IPC(i) && IsPlayerInAnyVehicle(i))
 		{
 		    RepairVehicle(GetPlayerVehicleID(i));
 		}
@@ -16548,7 +16551,7 @@ CMD:vip(playerid,params[])
 	{
 	    strcat(DIALOG_VIP,"Nick\t"w"Titul\t"w"Expirace\n");
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 	    {
@@ -16629,8 +16632,8 @@ CMD:vw(playerid,params[])
 	if(IsPlayerInAnyVehicle(playerid))
 	{
 	    new car = GetPlayerVehicleID(playerid);
-	    for(new i; i <= GetPlayerPoolSize(); i ++)
-			if(IsPlayerInAnyVehicle(i) && GetPlayerVehicleID(i) == car)
+	    for(new i; i < MAX_PLAYERS; i ++)
+			if(IPC(i) && IsPlayerInAnyVehicle(i) && GetPlayerVehicleID(i) == car)
 			    SetPlayerVirtualWorld(i,vwid);
 	    SetVehicleVirtualWorld(car,vwid);
 	}
@@ -16872,7 +16875,7 @@ CMD:leave(playerid,params[])
 		else
 		{
 			DuelSpecOff(playerid);
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			    if(IPC(i) && dPlayer[i][pDuelRoom] == room)
 			    {
 			        format(str,sizeof(str),"%s "w"%s "co"pøestal sledovat tento duel",Players(playerid),Jmeno(playerid));
@@ -16895,7 +16898,7 @@ CMD:leave(playerid,params[])
 		SumoTime = 0;
 		format(str,sizeof(str),"%s "w"%s {5700E5}%s "w"/sumo "g"[ /leave ]",Players(playerid),Jmeno(playerid),SexWord(playerid,"opustil","opustila"));
 		SCMTA(0x5700E5FF,str);
-	    for(new i; i <= GetPlayerPoolSize(); i ++)
+	    for(new i; i < MAX_PLAYERS; i ++)
 	    {
 	        if(IPC(i) && !IsPlayerNPC(i))
 	        {
@@ -17080,7 +17083,7 @@ CMD:ecas(playerid,params[])
 	if(sscanf(params,"i",hours)) return SM(playerid,"Použij: "r"/ecas [ Hodiny ]");
 	if(hours < 0 || hours > 23) return SM(playerid,"Rozmezí hodin je 0 - 23");
 	EventHour = hours;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i) && OnEvent[i] == true)
 	    {
@@ -17102,7 +17105,7 @@ CMD:epocasi(playerid,params[])
 	    case 0..50,100,250,2009:
 	    {
 			EventWeather = pocasi;
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
 			    if(IPC(i) && !IsPlayerNPC(i) && OnEvent[i] == true)
 			    {
@@ -17127,9 +17130,9 @@ CMD:cas(playerid,params[])
 	minuty = minutes;
 	hodiny = hours;
 	format(str,sizeof(str),"~g~~h~%02d~w~:~g~~h~%02d",hours,minutes);
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-		if(RealnyTime[i] == false && pHours[i] == -1 && pMinutes[i] == -1 && OnEvent[playerid] == false)
+		if(IPC(i) && RealnyTime[i] == false && pHours[i] == -1 && pMinutes[i] == -1 && OnEvent[playerid] == false)
 		{
 			SetPlayerTime(i,hours,minutes);
 			PlayerTextDrawSetString(i,TDTime[i],str);
@@ -17152,7 +17155,7 @@ CMD:pocasi(playerid,params[])
 			format(str,sizeof(str),"%s "w"%s "r"zmìnil poèasí.",Players(playerid),Jmeno(playerid));
 			SCMTA(red,str);
 			serverweather = weather;
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			    if(IPC(i) && !IsPlayerNPC(i))
 			        if(PlayerWeather[i] == -1 && OnEvent[playerid] == false)
 			            SetPlayerWeather(i,weather);
@@ -17380,7 +17383,7 @@ CMD:getteam(playerid,params[])
 	if(team < 0 || team > sizeof(TeamColors)-1) return SM(playerid,"Tento team neexistuje");
 	GetPlayerPos(playerid,X,Y,Z);
 	format(str,sizeof(str),"%s "w"%s {%06x}si k sobì portnul váš team",Players(playerid),Jmeno(playerid),TeamColors[team] >>> 8);
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i))
 	    {
@@ -17866,9 +17869,9 @@ CMD:setport(playerid,params[])
 			AddStringToTextDraw(str);
 			if(RunEvent == 2 ||RunEvent == 3 || RunEvent == 7)
 			{
-			    for(new i; i <= GetPlayerPoolSize(); i ++)
+			    for(new i; i < MAX_PLAYERS; i ++)
 			    {
-			        if(OnEvent[i] == true)
+			        if(IPC(i) && OnEvent[i] == true)
 			        {
 			    		DisableRemoteVehicleCollisions(i,0);
 					}
@@ -17983,9 +17986,9 @@ CMD:eventend(playerid,params[])
 		RaceReady[EventRace] = false;
 		pozice[EventRace] = 0;
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-		if(OnEvent[i] == true)
+		if(IPC(i) && OnEvent[i] == true)
 		{
 		    LoadBeforeEventData(i);
 			CancelEvent(i);
@@ -18730,9 +18733,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 1:
 				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 					    {
 					        if(Admin[i] < 1)
 					        {
@@ -18745,9 +18748,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
  				}
 				case 2:
 				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 					    {
 					        TogglePlayerControllable(i,true);
 						}
@@ -18757,9 +18760,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
  				}
 				case 3:
 				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 					    {
 							ResetPlayerWeaponsEx(i);
 						}
@@ -18769,9 +18772,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
  				}
  				case 4:
  				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 					    {
 					        if(Admin[i] < 1)
 					        {
@@ -18784,9 +18787,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
  				}
  				case 5:
  				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 					    {
 					        if(Admin[i] < 1)
 					        {
@@ -18803,9 +18806,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 7:
 				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 				    	{
 							if(IsPlayerInAnyVehicle(i))
 							{
@@ -18818,9 +18821,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 8:
 				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 				    	{
 							SetPlayerColor(i,GetPlayerColor(i) & 0xFFFFFF00);
 						}
@@ -18830,9 +18833,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 9:
 				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 				    	{
 							AR[i] = true;
 						}
@@ -18842,9 +18845,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 10:
 				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 				    	{
 							AR[i] = false;
 							if(IsPlayerInAnyVehicle(i))
@@ -18858,9 +18861,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 11:
 				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 				    	{
 							EventDL[i] = true;
 						}
@@ -18870,9 +18873,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 12:
 				{
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-					    if(OnEvent[i] == true)
+					    if(IPC(i) && OnEvent[i] == true)
 				    	{
 							EventDL[i] = false;
 							SetPlayerDrunkLevel(i,0);
@@ -18884,7 +18887,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				case 13:
 				{
 				    if(RunEvent == 9) return SM(playerid,"Na tomto eventu nemùžete vypnout zabíjení hráèù");
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
 					    if(IPC(i) && !IsPlayerNPC(i))
 					    {
@@ -18900,7 +18903,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				case 14:
 				{
 				    if(RunEvent == 9) return SM(playerid,"Na tomto eventu nemùžete zapnout zabíjení hráèù");
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
 					    if(IPC(i) && !IsPlayerNPC(i))
 					    {
@@ -18932,9 +18935,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 //			if(wepid == 38 || wepid == 44 || wepid == 45) return SPD(playerid,UNNAMED+1,DIALOG_STYLE_INPUT,"Weapon Give","Tato zbraò je zakázána Anti - Cheatem","Dát","Zpìt");
 		    format(str,sizeof(str),"%s "w"%s "r"%s zbraò "w"%s "r"všem hráèùm na eventu.",Players(playerid),Jmeno(playerid),SexWord(playerid,"dal","dala"),WeaponsNames(wepid));
 		    SCMTA(red,str);
-			for(new i; i <= GetPlayerPoolSize(); i++)
+			for(new i; i < MAX_PLAYERS; i++)
 			{
-				if(OnEvent[i] == true)
+				if(IPC(i) && OnEvent[i] == true)
 				{
 					GivePlayerWeaponEx(i,wepid,15000);
 				}
@@ -19588,10 +19591,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					    DOF2_SaveFile();
 					    AutRepair = 0;
 					    SM(playerid,"Automatická oprava vozidel vypnuta");
-					    for(new i; i <= GetPlayerPoolSize(); i++)
+					    for(new i; i < MAX_PLAYERS; i++)
 					    {
-							SetVehicleHealth(GetPlayerVehicleID(i),100);
-							RepairVehicle(GetPlayerVehicleID(i));
+					        if(IPC(i) && IsPlayerInAnyVehicle(playerid))
+							{
+								SetVehicleHealth(GetPlayerVehicleID(i),100);
+								RepairVehicle(GetPlayerVehicleID(i));
+							}
 					    }
 					}
 				}
@@ -20178,7 +20184,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				{
 				    new bool:canbesouzen = true;
 					if(GetPlayerWantedLevel(playerid) == 0) return SM(playerid,"Nejsi hledaný, nepotøebuješ právníka");
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
 					    if(IPC(i) && !IsPlayerNPC(i))
 					    {
@@ -21427,7 +21433,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			}
 			format(dfile,sizeof(dfile),USER_FILES,name);
 			if(fexist(dfile)) return SPD(playerid,UNNAMED+96,DIALOG_STYLE_INPUT,"Zmìna nicku","Tento nick už nìkdo používá","Zmìnit","Zrušit");
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
        			if(IPC(i))
 			    {
@@ -21542,9 +21548,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			    armour = 100;
 			}
 			if(health < 0 || armour < 0) return SM(playerid,"Hodnoty nemùžou jít do -");
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
-			    if(OnEvent[i] == true)
+			    if(IPC(i) && OnEvent[i] == true)
 			    {
 			        SetPlayerHealth(i,health);
 			        SetPlayerArmour(i,armour);
@@ -21730,7 +21736,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					format(str,sizeof(str),"Rádio {00FFFF}%s "w"úspìšnì smazáno",Radio[id][RadioName]);
 					SM(playerid,str);
 					Radio[id][RadioListeners] = 0;
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
 					    if(IPC(i) && !IsPlayerNPC(i))
 					    {
@@ -21969,7 +21975,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				SetTimerEx("Rob",1000,false,"ii",playerid,pid);
 				SetPlayerWantedLevel(playerid,GetPlayerWantedLevel(playerid)+1);
 				Property[pid][PropertyRobbed] = true;
-				for(new i; i <= GetPlayerPoolSize(); i ++)
+				for(new i; i < MAX_PLAYERS; i ++)
 				{
 				    if(IPC(i) && !IsPlayerNPC(i))
 				    {
@@ -24459,7 +24465,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			{
             	format(str,sizeof(str),"~y~%s ~w~na ~>~ ~r~~h~/port ~<~~n~~r~limit je %d hracu!",Events[id],sizeof(DerbyPos));
 			}
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			    if(IPC(i))
 	       			TextDrawShowForPlayer(i,Textdraw5);
 			TextDrawDiakritika(str);
@@ -24519,7 +24525,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(Map[mapid][MapLoaded] == false)
 					{
 					    new canload = -1;
-						for(new i; i <= GetPlayerPoolSize(); i ++)
+						for(new i; i < MAX_PLAYERS; i ++)
 						    if(IPC(i))
 						        if(MapEdit[i] == mapid)
 						            canload = i;
@@ -24776,7 +24782,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			EventRadiusPos[2] = Y+radius;
 			EventRadiusPos[3] = Y-radius;
 			EventZone[0] = GangZoneCreate(EventRadiusPos[1],EventRadiusPos[3],EventRadiusPos[0],EventRadiusPos[2]);
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
 			    if(IPC(i) && !IsPlayerNPC(i))
 			    {
@@ -25699,7 +25705,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             SaveBeforeEventData(playerid);
 			TogglePlayerSpectating(playerid,true);
 			SetPlayerVirtualWorld(playerid,DUEL_WORLD+room);
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			    if(IPC(i) && dPlayer[i][pDuelRoom] == room)
 			    {
 					format(str,sizeof(str),"%s "w"%s "co"pøišel sledovat tento duel",Players(playerid),Jmeno(playerid));
@@ -25863,7 +25869,7 @@ public EventProgress()
 					}
 					else
 						format(text,sizeof(text),"Zona zmenšena, dostante se do posledni zony, pred vyprsenim casu");
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
 					    if(IPC(i) && OnEvent[i] == true){
 					        GangZoneShowForPlayer(i,EventZone[0],0xFFFFFF80);
@@ -25969,7 +25975,7 @@ public Rob(playerid,propid)
 			            SetPlayerAchievement(playerid,ROB_150);
 			        }
 			    }
-				for(new i; i <= GetPlayerPoolSize(); i ++)
+				for(new i; i < MAX_PLAYERS; i ++)
 				{
 				    if(IPC(i) && !IsPlayerNPC(i))
 				    {
@@ -26009,7 +26015,7 @@ public TimeToEndRace(raceid)
 		SetTimerEx("TimeToEndRace",1000,false,"i",raceid);
 		new text[50];
 		format(text,sizeof(text),"~w~Zavod bude ukoncen za~n~~r~%d sekund",TimeToStartSeconds[raceid]);
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(IPC(i) && !IsPlayerNPC(i))
 		    {
@@ -26021,7 +26027,7 @@ public TimeToEndRace(raceid)
 		}
 		if(TimeToStartSeconds[raceid] == 0)
 		{
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
 			    if(IPC(i) && !IsPlayerNPC(i))
 			    {
@@ -26087,23 +26093,20 @@ public TimeToStart(raceid)
 			    {
 			        format(str,sizeof(str),"Závod "w"%s "sb"byl zrušený z dùvodu nedostatku hráèù.",Race[raceid][CPName]);
 			        SCMTA(0x0055FFFF,str);
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-						if(RacePlayer[i] == raceid)
+						if(IPC(i) && RacePlayer[i] == raceid)
 						{
-						    if(IPC(i))
-						    {
-							    GivePoints(i,Race[raceid][RaceZapisne]);
-							    format(str,sizeof(str),"%s %s back %d points from race",Players(i),Jmeno(i),Race[raceid][RaceZapisne]);
-							    printEx(str);
-							    TogglePlayerControllable(i,true);
-							    DestroyVehicle(Ecar[i]);
-							    Ecar[i] = 0;
-							    SetPlayerVirtualWorld(i,0);
-							    RacePlayer[i] = -1;
-								DisableRemoteVehicleCollisions(i,0);
-							    LoadBeforeEventData(i);
-							}
+						    GivePoints(i,Race[raceid][RaceZapisne]);
+						    format(str,sizeof(str),"%s %s back %d points from race",Players(i),Jmeno(i),Race[raceid][RaceZapisne]);
+						    printEx(str);
+						    TogglePlayerControllable(i,true);
+						    DestroyVehicle(Ecar[i]);
+						    Ecar[i] = 0;
+						    SetPlayerVirtualWorld(i,0);
+						    RacePlayer[i] = -1;
+							DisableRemoteVehicleCollisions(i,0);
+						    LoadBeforeEventData(i);
 						}
 					}
 					RaceReady[raceid] = false;
@@ -26117,9 +26120,9 @@ public TimeToStart(raceid)
 			        format(str,sizeof(str),"Závod "w"%s "sb"byl odstartován.",Race[raceid][CPName]);
 			        SCMTA(0x0055FFFF,str);
 			        RaceStart[raceid] = true;
-					for(new i; i <= GetPlayerPoolSize(); i ++)
+					for(new i; i < MAX_PLAYERS; i ++)
 					{
-						if(RacePlayer[i] == raceid)
+						if(IPC(i) && RacePlayer[i] == raceid)
 						{
 							DisablePlayerRaceCheckpoint(i);
 							TogglePlayerControllable(i,false);
@@ -26269,7 +26272,7 @@ public PlayAdminAudioStream(urladress[])
 	KillTimer(TimerStream);
 	TimerStream = 0;
 	format(url,sizeof(url),urladress);
-    for(new i; i <= GetPlayerPoolSize(); i ++)
+    for(new i; i < MAX_PLAYERS; i ++)
     {
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -26373,7 +26376,7 @@ forward GetPlayerVehiclePancir(vehicleid);
 
 public GetPlayerVehiclePancir(vehicleid)
 {
-	for(new x; x <= GetPlayerPoolSize(); x ++)
+	for(new x; x < MAX_PLAYERS; x ++)
 	{
 	    if(IPC(x))
 	    {
@@ -26972,7 +26975,7 @@ stock GivePostrehStreak(playerid,odmena)
 
 stock ReloadPostrehStreak(playerid = -1)
 {
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i) && i != playerid)
 	    {
@@ -27009,7 +27012,7 @@ stock GenerateDaily()
 		DOF2_SetInt(DAILYCFG,"DailyDay",nday);
 		DOF2_SaveFile();
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i)){
 	   		ResetPlayerDaily(i);
@@ -27373,7 +27376,7 @@ stock GunGamePosition()
 	if(RunEvent == 10)
 	{
 	    new maxpos = -1;
-	    for(new i; i <= GetPlayerPoolSize(); i ++)
+	    for(new i; i < MAX_PLAYERS; i ++)
 	    {
 	        if(IPC(i) && !IsPlayerNPC(i) && OnEvent[i])
 	        {
@@ -27670,7 +27673,7 @@ stock ShowAdvertisments(playerid,addition[] = "")
 {
 	new DIALOG[2000],advs,myin[129];
 	GetPVarString(playerid,"Inzerat",myin,sizeof(myin));
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i))
 		{
@@ -27999,7 +28002,7 @@ public DuelTimeTimer(room)
 {
 	Duel[room][DuelTime] ++;
 	Duel[room][DuelRoundTime] ++;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && dPlayer[i][DuelPlayer] != -1)
 	    {
@@ -28057,11 +28060,13 @@ stock ResetDuel(room,reason[] = "")
 		Duel[room][DuelPlayer][i] = -1;
 		Duel[room][DuelKills][i] = 0;
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
-	    if(dPlayer[i][pDuelSpec] != -1 && dPlayer[i][pDuelRoom] == room && IPC(i))
+	for(new i; i < MAX_PLAYERS; i ++)
+	{
+	    if(IPC(i) && dPlayer[i][pDuelSpec] != -1 && dPlayer[i][pDuelRoom] == room)
 	    {
 			DuelSpecOff(i);
 		}
+	}
 	return 1;
 }
 
@@ -28472,7 +28477,7 @@ stock ResetPlayerWeaponsEx(playerid)
 stock GetPlayerRacePlayers(raceid)
 {
 	new players;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i))
 	    {
@@ -28488,7 +28493,7 @@ stock GetPlayerRacePlayers(raceid)
 stock GetPlayerPosition(playerid, raceid)
 {
 	new index = 0;
-	for(new j = 0; j <= GetPlayerPoolSize(); j++)
+	for(new j = 0; j < MAX_PLAYERS; j++)
 	{
 		if(IPC(j))
 		{
@@ -29196,9 +29201,9 @@ stock GivePlayerDMScore(playerid,deathid,text[],score = 5)
 	format(str,sizeof(str),"%s %s",Jmeno(playerid),text);
 	convert_encoding(str);
 	TextDrawSetString(Textdraw35[InDM[playerid]],str);
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-	    if(InDM[i] != -1)
+	    if(IPC(i) && InDM[i] != -1)
 	    {
 	        if(InDM[i] == InDM[playerid])
 	        {
@@ -29226,9 +29231,9 @@ forward DeleteScoreText(dmid);
 
 public DeleteScoreText(dmid)
 {
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-	    if(InDM[i] != -1)
+	    if(IPC(i) && InDM[i] != -1)
 	    {
 	        if(InDM[i] == dmid)
 	        {
@@ -29245,9 +29250,9 @@ public DeleteScoreText(dmid)
 
 stock PlayDMVoice(dmid,odkaz[])
 {
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-	    if(InDM[i] != -1)
+	    if(IPC(i) && InDM[i] != -1)
 	    {
 	        if(InDM[i] == dmid)
 	        {
@@ -31456,7 +31461,7 @@ stock GetOnlinePlayers()
 	hraci = 0;
 	phraci = 0;
 	ahraci = 0;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i))
 	    {
@@ -31599,7 +31604,7 @@ stock SendPrivateMessage(playerid,id,text[])
 	format(str,sizeof(str),"[ PM ] %s -> %s: %s",Jmeno(playerid),Jmeno(id),HighlightText(text,"{7171FF}"));
 	if(Admin[playerid] == 0)
 	{
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(IPC(i) && !IsPlayerNPC(i))
 		    {
@@ -33185,7 +33190,7 @@ stock ZavinacID(playerid,color[],text[])
 function SendAdminMessage(text[])
 {
     new strrr[256];
-	for(new i; i <= GetPlayerPoolSize(); i++)
+	for(new i; i < MAX_PLAYERS; i++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -33204,7 +33209,7 @@ forward SendAdminMessageWithoutADMINS(text[]);
 
 public SendAdminMessageWithoutADMINS(text[])
 {
-	for(new i; i <= GetPlayerPoolSize(); i++)
+	for(new i; i < MAX_PLAYERS; i++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -33597,7 +33602,7 @@ stock Loadefile(playerid)
 
 stock GetPlayerIdFromName(playername[])
 {
-  	for(new i = 0; i <= GetPlayerPoolSize(); i++)
+  	for(new i = 0; i < MAX_PLAYERS; i++)
   	{
     	if(IsPlayerConnected(i))
     	{
@@ -33667,7 +33672,7 @@ function IsPlayerUAdmin(playerid)
 
 stock IsVehicleEmpty(vehicleid)
 {
- 	for(new i; i <= GetPlayerPoolSize(); i++)
+ 	for(new i; i < MAX_PLAYERS; i++)
   	{
     	if(IsPlayerConnected(i) && IsPlayerInAnyVehicle(i) && GetPlayerVehicleID(i) == vehicleid) return 0;
   	}

@@ -533,7 +533,7 @@ public OnFilterScriptInit()
 		format(dfile,sizeof(dfile),GANG_FILE,i);
 		if(fexist(dfile))
 		{
-			for(new e; e <= GetPlayerPoolSize(); e ++)
+			for(new e; e < MAX_PLAYERS; e ++)
 			{
 				if(IPC(e) && !IsPlayerNPC(e))
 				{
@@ -1095,7 +1095,7 @@ CMD:zabrat(playerid)
 	if(Gang[gang][GFight] != -1) return SM(playerid,"Váš gang už má nìco na práci");
 	if(zoneowner != -1)
 	{
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(IPC(i) && !IsPlayerNPC(i))
 		    {
@@ -1119,9 +1119,9 @@ CMD:zabrat(playerid)
 		ZoneVictim[zone] = zoneowner;
 		Gang[zoneowner][GFight] = zone;
 		format(str,sizeof(str),"Gang ~r~%s ~w~napadl vase uzemi, uzemi bylo vyznaceno na mape",Gang[gang][GName]);
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
-		    if(GetPlayerGangMember(i) == zoneowner)
+		    if(IPC(i) && GetPlayerGangMember(i) == zoneowner)
 		    {
 				CreateInfoBox(i,str,10);
 				SetPlayerMapIcon(i,99,X,Y,Z,19,bila,MAPICON_GLOBAL);
@@ -1138,9 +1138,9 @@ CMD:zabrat(playerid)
 		format(str,sizeof(str),"Vas gang zabira ~y~volne uzemi~w~, uzemi bylo vyznaceno na mape");
 		ZoneAttackTime[zone] = TAKEOVER_TIME_NONE;
 	}
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-	    if(GetPlayerGangMember(i) == gang)
+	    if(IPC(i) && GetPlayerGangMember(i) == gang)
 	    {
 			CreateInfoBox(i,str,10);
 			SetPlayerMapIcon(i,99,X,Y,Z,62,bila,MAPICON_GLOBAL);
@@ -1159,7 +1159,7 @@ public GangFight(zoneid,attacker,victim)
 	if(ZoneAttackTime[zoneid] > 0)
 	{
 		SetTimerEx("GangFight",1000,false,"iii",zoneid,attacker,victim);
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(IPC(i) && !IsPlayerNPC(i))
 		    {
@@ -1250,9 +1250,9 @@ public GangFight(zoneid,attacker,victim)
 			{
 		    	format(str,sizeof(str),"Vasemu gangu se ~r~nepodarilo ~w~zabrat ~y~volne uzemi~w~ ( ~y~-5 RS ~w~)");
 			}
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
-			    if(GetPlayerGangMember(i) == attacker)
+			    if(IPC(i) && GetPlayerGangMember(i) == attacker)
 			    {
 					PlayerTextDrawHide(i,TimeBox[i]);
 					PlayerTextDrawHide(i,FightInfo[i]);
@@ -1284,9 +1284,9 @@ public GangFight(zoneid,attacker,victim)
 			{
 				format(str,sizeof(str),"Vas gang zabral ~y~volne uzemi ~w~( ~y~5 RS ~w~)");
 			}
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
-			    if(GetPlayerGangMember(i) == attacker && IPC(i))
+			    if(IPC(i) && GetPlayerGangMember(i) == attacker && IPC(i))
 			    {
 					PlayerTextDrawHide(i,TimeBox[i]);
 					PlayerTextDrawHide(i,FightInfo[i]);
@@ -1305,9 +1305,9 @@ public GangFight(zoneid,attacker,victim)
 			if(victim != -1)
 			{
 				format(str,sizeof(str),"Vas gang ~r~prohral ~w~valku o vase uzemi s gangem ~r~%s ~w~( ~y~-%d RS~w~ )",Gang[victim][GName],rand);
-				for(new i; i <= GetPlayerPoolSize(); i ++)
+				for(new i; i < MAX_PLAYERS; i ++)
 				{
-				    if(GetPlayerGangMember(i) == victim)
+				    if(IPC(i) && GetPlayerGangMember(i) == victim)
 				    {
 				        CreateInfoBox(i,str,10);
 						PlayerTextDrawHide(i,TimeBox[i]);
@@ -1332,9 +1332,9 @@ public GangFight(zoneid,attacker,victim)
 		    {
 				GiveGangRS(victim,rand);
 				format(str,sizeof(str),"Vas gang ~g~vyhral ~w~valku nad gangem ~r~%s ~w~o vase uzemi (~y~ %d RS ~w~)",Gang[attacker][GName],rand);
-				for(new i; i <= GetPlayerPoolSize(); i ++)
+				for(new i; i < MAX_PLAYERS; i ++)
 				{
-				    if(GetPlayerGangMember(i) == victim)
+				    if(IPC(i) && GetPlayerGangMember(i) == victim)
 				    {
 						new ingwstate = GetPVarInt(i,"InWarState");
 						PlayerTextDrawHide(i,TimeBox[i]);
@@ -1358,9 +1358,9 @@ public GangFight(zoneid,attacker,victim)
 			{
 		    	format(str,sizeof(str),"Vasemu gangu se ~r~nepodarilo ~w~zabrat ~y~volne uzemi~w~ ( ~y~-5 RS ~w~)");
 			}
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
-			    if(GetPlayerGangMember(i) == attacker)
+			    if(IPC(i) && GetPlayerGangMember(i) == attacker)
 			    {
 					PlayerTextDrawHide(i,TimeBox[i]);
 					PlayerTextDrawHide(i,FightInfo[i]);
@@ -1471,9 +1471,9 @@ CMD:rgang(playerid,params[])
 	format(str,sizeof(str),"Gang {%s}%s "w"úspìšnì resetován",Gang[gid][GColor],Gang[gid][GName]);
 	SM(playerid,str);
 	format(dfile,sizeof(dfile),GANG_FILE,gid);
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-	    if(GetInt(i,"Member") == gid)
+	    if(IPC(i) && GetInt(i,"Member") == gid)
 	    {
 	        SetInt(i,"Owner",0);
 	        SetInt(i,"Member",0);
@@ -1552,7 +1552,7 @@ CMD:members(playerid,params[])
 {
 	new players = 0;
 //	strcat(DIALOG,"Nick\tGang\tHodnost\n");
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -2187,7 +2187,7 @@ public OnDialogResponse(playerid,dialogid,response,listitem,inputtext[])
 		    new query[200];
 		    mysql_format(mysql,query,sizeof(query),"UPDATE `Gangs` SET `Name`='%e' WHERE `GangID`=%d",inputtext,gid);
 		    mysql_query(mysql,query,false);
-		    for(new i; i <= GetPlayerPoolSize(); i ++)
+		    for(new i; i < MAX_PLAYERS; i ++)
 		    {
 				if(IPC(i) && !IsPlayerNPC(i))
 				{
@@ -2225,9 +2225,9 @@ public OnDialogResponse(playerid,dialogid,response,listitem,inputtext[])
 			            UpdateGangZoneColor(x);
 			        }
 			    }
-			    for(new i; i <= GetPlayerPoolSize(); i ++)
+			    for(new i; i < MAX_PLAYERS; i ++)
 			    {
-			        if(GetInt(i,"Member") == gid)
+			        if(IPC(i) && GetInt(i,"Member") == gid)
 			        {
 						UpdateGangTitle(i);
 			        }
@@ -2311,9 +2311,9 @@ public OnDialogResponse(playerid,dialogid,response,listitem,inputtext[])
 			SetPlayerSpawn(playerid,SPAWN_TYPE_GANG);
 	        format(str,sizeof(str),"Pøijmul si pozvánku do gangu {%s}%s",Gang[GetInt(playerid,"MaybeMember")][GColor],Gang[GetInt(playerid,"MaybeMember")][GName]);
 	        SM(playerid,str);
-	        for(new i; i <= GetPlayerPoolSize(); i ++)
+	        for(new i; i < MAX_PLAYERS; i ++)
 	        {
-	            if(GetInt(i,"Member") == GetInt(playerid,"MaybeMember"))
+	            if(IPC(i) && GetInt(i,"Member") == GetInt(playerid,"MaybeMember"))
 	            {
 					format(str,sizeof(str),"Hráè "r"%s "w"pøijal pozvánku do gangu. Stává se novým èlenem",Jmeno(playerid));
 					SM(i,str);
@@ -2334,9 +2334,9 @@ public OnDialogResponse(playerid,dialogid,response,listitem,inputtext[])
 		}
 	    else
 	    {
-	        for(new i; i <= GetPlayerPoolSize(); i ++)
+	        for(new i; i < MAX_PLAYERS; i ++)
 	        {
-	            if(GetInt(i,"Member") == GetInt(playerid,"MaybeMember"))
+	            if(IPC(i) && GetInt(i,"Member") == GetInt(playerid,"MaybeMember"))
 	            {
 					format(str,sizeof(str),"Hráè "r"%s "w"odmítl pozvánku do gangu.",Jmeno(playerid));
 					SM(i,str);
@@ -2416,9 +2416,9 @@ public OnDialogResponse(playerid,dialogid,response,listitem,inputtext[])
 			format(dfile,sizeof(dfile),GANG_FILE,gid);
 			format(member,sizeof(member),"Member[%d]",listitem);
 			if(dini_Int(dfile,member) == -1) return SM(playerid,"V tomto slotu není žádný èlen");
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
-				if(GetInt(i,"Member") == gid && GetInt(i,"MemberPos") == listitem && GetInt(i,"Owner") == 0)
+				if(IPC(i) && GetInt(i,"Member") == gid && GetInt(i,"MemberPos") == listitem && GetInt(i,"Owner") == 0)
 				{
 				    SetInt(i,"Member",0);
 				    Member[i] = 0;
@@ -2810,9 +2810,9 @@ public OnDialogResponse(playerid,dialogid,response,listitem,inputtext[])
 	    {
 	        new gid = GetPVarInt(playerid,"GangID");
 			format(dfile,sizeof(dfile),GANG_FILE,gid);
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			{
-			    if(GetInt(i,"Member") == gid)
+			    if(IPC(i) && GetInt(i,"Member") == gid)
 			    {
 			        SetInt(i,"Owner",0);
 			        SetInt(i,"Member",0);
@@ -2995,9 +2995,9 @@ public OnDialogResponse(playerid,dialogid,response,listitem,inputtext[])
 		            UpdateGangZoneColor(x);
 		        }
 		    }
-		    for(new i; i <= GetPlayerPoolSize(); i ++)
+		    for(new i; i < MAX_PLAYERS; i ++)
 		    {
-		        if(GetInt(i,"Member") == gid)
+		        if(IPC(i) && GetInt(i,"Member") == gid)
 		        {
 					UpdateGangTitle(i);
 		        }
@@ -3049,7 +3049,7 @@ public OnDialogResponse(playerid,dialogid,response,listitem,inputtext[])
 			DOF2_SaveFile();
 			format(str,sizeof(str),"Speciální název gangu %s nastaven na %s",Gang[id][GName],inputtext);
 			SPD(playerid,0,DIALOG_STYLE_MSGBOX,Gang[id][GSName],str,"Zavøít","");
-			for(new i; i <= GetPlayerPoolSize(); i ++)
+			for(new i; i < MAX_PLAYERS; i ++)
 			    if(IPC(i))
 			        if(GetPlayerGangMember(i) == id)
 			            UpdateGangTitle(i);
@@ -3101,7 +3101,7 @@ public GangChat(playerid,text[])
 	    format(str,sizeof(str),"{%s}[ Gang Chat | "w"%s: {%s}] "w"%s(%d): %s",Gang[gid][GColor],Gang[gid][GName],Gang[gid][GColor],Jmeno(playerid),playerid,text[1]);
 		printEx(str);
 	    format(str,sizeof(str),"{%s}[ Gang Chat ] "w"%s(%d): {%s}%s",Gang[gid][GColor],Jmeno(playerid),playerid,Gang[gid][GColor],text[1]);
-		for(new i; i <= GetPlayerPoolSize(); i ++)
+		for(new i; i < MAX_PLAYERS; i ++)
 		{
 		    if(IPC(i) && !IsPlayerNPC(i))
 		    {
@@ -3281,7 +3281,7 @@ stock GetPlayerDrazbaType(playerid)
 
 stock GetPlayerIdFromName(playername[])
 {
-  	for(new i = 0; i <= GetPlayerPoolSize(); i++)
+  	for(new i = 0; i < MAX_PLAYERS; i++)
   	{
     	if(IsPlayerConnected(i))
     	{
@@ -3326,9 +3326,9 @@ stock IsPlayerWorking(playerid)
 
 stock UpdateGangZoneColor(zoneid)
 {
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-	    if(IsPlayerInGang(i))
+	    if(IPC(i) && IsPlayerInGang(i))
 	    {
 	        GangZoneHideForPlayer(i,ZoneID[zoneid]);
 	        GangZoneShowForPlayer(i,ZoneID[zoneid],GetZoneColor(zoneid));
@@ -3376,9 +3376,9 @@ stock GetPlayerZone(playerid)
 stock GetPlayersInZone(zoneid)
 {
 	new count;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-		if(IsPlayerInGang(i))
+		if(IPC(i) && IsPlayerInGang(i))
 		{
 			if(IsPlayerInZone(playerid,zoneid))
 			{
@@ -3392,9 +3392,9 @@ stock GetPlayersInZone(zoneid)
 stock GetGangPlayersInZone(zoneid,gid)
 {
 	new count;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-		if(GetPlayerGangMember(i) == gid)
+		if(IPC(i) && GetPlayerGangMember(i) == gid)
 		{
 			if(IsPlayerInZone(i,zoneid))
 			{
@@ -3411,9 +3411,9 @@ stock ChangeZoneOwner(zoneid,gid)
 	mysql_format(mysql,query,sizeof(query),"UPDATE `GangZones` SET `GangID`=%d WHERE `ZoneID`=%d",gid,zoneid);
 	mysql_query(mysql,query,false);
 	Zones[zoneid][ZoneGang] = gid;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
-		if(IsPlayerInGang(i))
+		if(IPC(i) && IsPlayerInGang(i))
 		{
 			GangZoneHideForPlayer(i,zoneid);
 			GangZoneShowForPlayer(i,zoneid,GetZoneColor(zoneid));
@@ -3725,7 +3725,7 @@ stock GangHodnost(playerid)
 //============================================================================//
 stock IsVehicleEmpty(vehicleid)
 {
- 	for(new i; i <= GetPlayerPoolSize(); i++)
+ 	for(new i; i < MAX_PLAYERS; i++)
   	{
     	if(IsPlayerConnected(i) && IsPlayerInAnyVehicle(i) && GetPlayerVehicleID(i) == vehicleid) return 0;
   	}
@@ -3735,7 +3735,7 @@ stock IsVehicleEmpty(vehicleid)
 stock SendGangMessage(gang,text[])
 {
 	format(str,sizeof(str),"{%s}[ Gang System ] "w"%s{%s}.",Gang[gang][GColor],text,Gang[gang][GColor]);
-	for(new i; i <= GetPlayerPoolSize(); i++)
+	for(new i; i < MAX_PLAYERS; i++)
 	{
 		if(IsPlayerConnected(i))
 		{

@@ -150,6 +150,9 @@ new mysql;
 #define P_LETECKY       1
 #define P_ZBROJNI       2
 
+#undef MAX_PLAYERS
+#define MAX_PLAYERS 100
+
 new PlayerText:Textdraw0[MAX_PLAYERS]; //Cas
 new Text:Textdraw1; //Intro
 new Text:Textdraw2; //Intro
@@ -842,13 +845,13 @@ main()
 public OnVehicleDeath(vehicleid, killerid)
 {
 	new str[145];
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 		if(IPC(i) && !IsPlayerNPC(i))
 			if(PlayerSP[i][pSPSuppState] != -1)
 			{
 				if(vehicleid == PlayerSP[i][pSPSuppVehicle])
 				{
-					for(new x; x <= GetPlayerPoolSize(); x ++)
+					for(new x; x < MAX_PLAYERS; x ++)
 					{
 						if(IPC(x) && !IsPlayerNPC(x) && x != i)
 						{
@@ -912,7 +915,7 @@ public OnPlayerEnterCheckpoint(playerid)
 
 public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i) && playerid != i)
 		{
@@ -958,7 +961,7 @@ CMD:taxa(playerid,params[])
 CMD:pjobs(playerid,params[])
 {
 	new DIALOG[2000],str[145];
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i))
 	    {
@@ -980,7 +983,7 @@ CMD:doplnky(playerid,params[])
 CMD:drazby(playerid,params[])
 {
 	new str[200],DIALOG[2000],drazby;
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i) && !IsPlayerNPC(i))
 	    {
@@ -1152,7 +1155,7 @@ CMD:saveall(playerid,params[])
 	new str[100];
 	if(!IsPlayerOnHighestLevel(playerid)) return SCM(playerid,RED,"[ ! ] "cw"Na tento pøíkaz je tøeba mít nejvýšší oprávnìní.");
 	SCM(playerid,0xADADADFF,"Start");
-	for(new i; i <= GetPlayerPoolSize(); i++)
+	for(new i; i < MAX_PLAYERS; i++)
 	{
 		if(IPC(i) && !IsPlayerNPC(i))
 		{
@@ -2019,7 +2022,7 @@ public OnPlayerDisconnect(playerid,reason)
 		CancelSupplyRun(playerid);
 		for(new i; i < MAX_PLAYERS; i ++)
 		{
-			if(IsPlayerConnected(i))
+			if(IPC(i))
 			{
 				if(Player[i][pOfferID] == playerid)
 					Player[i][pOfferID] = -1;
@@ -2897,7 +2900,7 @@ public OnDialogResponse(playerid,dialogid,response,listitem,inputtext[])
 		            for(new i; i < MAX_JOBS; i ++)
 		            {
 		                new zamestnanci;
-		                for(new x; x <= GetPlayerPoolSize(); x ++)
+		                for(new x; x < MAX_PLAYERS; x ++)
 						{
 							if(IPC(x) && !IsPlayerNPC(x))
 							{
@@ -4003,7 +4006,7 @@ function GivePlayerJobReward(playerid)
 
 function SendJobMessage(jobtype,message[])
 {
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 	    if(IPC(i))
 	    {
@@ -4598,9 +4601,9 @@ function IsPlayerLogged(playerid)
 
 stock GetPlayerIdFromName(playername[])
 {
-  	for(new i = 0; i <= GetPlayerPoolSize(); i++)
+  	for(new i = 0; i < MAX_PLAYERS; i++)
   	{
-    	if(IsPlayerConnected(i))
+    	if(IPC(i))
     	{
       		if(strcmp(Jmeno(i),playername,true,strlen(playername)) == 0)
       		{

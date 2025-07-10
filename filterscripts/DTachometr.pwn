@@ -22,7 +22,7 @@ forward Tachometr(playerid);
 
 public Tachometr(playerid)
 {
-	if(IsPlayerInAnyVehicle(playerid))
+	if(IsPlayerConnected(playerid) && IsPlayerInAnyVehicle(playerid))
 	{
 		new str[144],car = GetPlayerVehicleID(playerid),Float:Health;
 		format(str,sizeof(str),"~y~Rychlost: ~w~%d KM/H",getSpeed(playerid));
@@ -54,7 +54,7 @@ public Tachometr(playerid)
 
 public OnFilterScriptInit()
 {
-	for(new i; i <= GetPlayerPoolSize(); i ++)
+	for(new i; i < MAX_PLAYERS; i ++)
 	{
 		if(IsPlayerConnected(i))
 		{
@@ -66,7 +66,7 @@ public OnFilterScriptInit()
 
 public OnFilterScriptExit()
 {
-	for(new x; x <= GetPlayerPoolSize(); x ++)
+	for(new x; x < MAX_PLAYERS; x ++)
 	{
 		for(new i; TextDraws:i < TextDraws; i ++)
 		{
